@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import javabean.sub.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class PullServiceRequestStructure {
+public class PullServiceRequest {
 
     @SerializedName("Query")
     @Expose
@@ -19,10 +19,10 @@ public class PullServiceRequestStructure {
     @Expose
     private Result result;
 
-    public PullServiceRequestStructure() {
+    public PullServiceRequest() {
     }
 
-    public PullServiceRequestStructure(Query query, UserData userData, Result result) {
+    public PullServiceRequest(Query query, UserData userData, Result result) {
         super();
         this.query = query;
         this.userData = userData;

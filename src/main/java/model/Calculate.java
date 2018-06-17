@@ -1,7 +1,17 @@
 package model;
-
+/*
+參考資料：
+算出範圍內最大最小經緯度與算出兩點距離：
+https://my.oschina.net/freegeek/blog/221341
+算出範圍內最大最小經緯度：
+https://blog.csdn.net/yusewuhen/article/details/38402721
+給經緯度和距離，以此為基準算出四方形四個點的經緯度
+http://wp.mlab.tw/?p=2200
+*/
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javabean.sub.Coordinate;
 
 public class Calculate {
@@ -30,18 +40,29 @@ public class Calculate {
         double E = longitude + Math.abs(lonDiff);
         double W = longitude - Math.abs(lonDiff);
         List<Coordinate> borderPoints = new ArrayList<>();
-        Coordinate c1 = new Coordinate(latitude, E);
-        Coordinate c2 = new Coordinate(S, longitude);
-        Coordinate c3 = new Coordinate(latitude, W);
-        Coordinate c4 = new Coordinate(N, longitude);
-        borderPoints.add(c1);
-        borderPoints.add(c2);
-        borderPoints.add(c3);
-        borderPoints.add(c4);
-//        System.out.println(latitude + " " + E);
-//        System.out.println(S + " " + longitude);
-//        System.out.println(latitude + " " + W);
-//        System.out.println(N + " " + longitude);
+        borderPoints.add(new Coordinate(latitude, E));
+        borderPoints.add(new Coordinate(S, longitude));
+        borderPoints.add(new Coordinate(latitude, W));
+        borderPoints.add(new Coordinate(N, longitude));
         return borderPoints;
+    }
+
+    //取得最小最大經緯度四個值
+    public static List<Double> getMaxMinLatitudeLongitude(double latitude, double longitude, double distance) {
+        double r = 6371; //地球半徑千米
+        double dlng = 2 * Math.asin(Math.sin(distance / (2 * r)) / Math.cos(latitude * Math.PI / 180));
+        dlng = dlng * 180 / Math.PI; //角度轉為弧度
+        double dlat = distance / r;
+        dlat = dlat * 180 / Math.PI;
+        double minlat = latitude - dlat;
+        double maxlat = latitude + dlat;
+        double minlng = longitude - dlng;
+        double maxlng = longitude + dlng;
+        List<Double> list = new ArrayList<>();
+        list.add(minlat);
+        list.add(maxlat);
+        list.add(minlng);
+        list.add(maxlng);
+        return list;
     }
 }
