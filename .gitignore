@@ -763,3 +763,4 @@ __pycache__/
 
 
 # End of https://www.gitignore.io/api/vim,java,linux,macos,maven,android,windows,eclipse,netbeans,intellij,webstorm,java-web,notepadpp,sublimetext,visualstudio,androidstudio,visualstudiocode
+/nbproject/
