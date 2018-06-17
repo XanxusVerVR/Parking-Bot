@@ -200,4 +200,46 @@ public class AreaTest {
         }
         assertEquals(false, isAreaWithin);
     }
+
+    @Test
+    public void judgmentPositionWhetherArea13() {
+        double myLatitude = 31.986032;
+        double myLongitude = 115.783115;
+        List<Double> list = Calculate.getMaxMinLatitudeLongitude(23.0003887, 120.2136187, 1);
+        boolean isAreaWithin;
+        if (myLongitude >= list.get(2) && myLongitude <= list.get(3) && myLatitude >= list.get(0) && myLatitude <= list.get(1)) {
+            isAreaWithin = true;
+        } else {
+            isAreaWithin = false;
+        }
+        assertEquals(false, isAreaWithin);
+    }
+
+    @Test
+    public void judgmentPositionWhetherArea14() {
+        double myLatitude = 24.559469;
+        double myLongitude = 121.695573;
+        List<Double> list = Calculate.getMaxMinLatitudeLongitude(23.0003887, 120.2136187, 1);
+        boolean isAreaWithin;
+        if (myLongitude >= list.get(2) && myLongitude <= list.get(3) && myLatitude >= list.get(0) && myLatitude <= list.get(1)) {
+            isAreaWithin = true;
+        } else {
+            isAreaWithin = false;
+        }
+        assertEquals(false, isAreaWithin);
+    }
+
+    @Test
+    public void judgmentPositionWhetherArea15() {
+        double myLatitude = 25.075212;
+        double myLongitude = 121.636313;
+        List<Double> list = Calculate.getMaxMinLatitudeLongitude(23.0003887, 120.2136187, 1);
+        boolean isAreaWithin;
+        if (myLongitude >= list.get(2) && myLongitude <= list.get(3) && myLatitude >= list.get(0) && myLatitude <= list.get(1)) {
+            isAreaWithin = true;
+        } else {
+            isAreaWithin = false;
+        }
+        assertEquals(false, isAreaWithin);
+    }
 }
