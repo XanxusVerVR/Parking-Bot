@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,17 +33,24 @@ public class WebController {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
         TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
         PullServiceRequest u = gson.fromJson(requestBody, PullServiceRequest.class);
-        List<Double> list = Calculate.getMaxMinLatitudeLongitude(u.getQuery().getCoordinate().getLatitude(), u.getQuery().getCoordinate().getLongitude(), 1);
+        double goalLatitude = u.getQuery().getCoordinate().getLatitude();
+        double goalLongitude = u.getQuery().getCoordinate().getLongitude();
+        List<Double> list = Calculate.getMaxMinLatitudeLongitude(goalLatitude, goalLongitude, 1);
         List<TainanParkingRemainder> listOfParkingAreasInTheArea = new ArrayList<>();//用來儲存在範圍內的停車場
-        for (TainanParkingRemainder d : tainanParkingRemainder) {
+        for (TainanParkingRemainder d : tainanParkingRemainder) {//找出1km範圍內的停車場
             double parkLatitude = Double.parseDouble(d.getLnglat().substring(0, d.getLnglat().indexOf(",")));
             double parkLongitude = Double.parseDouble(d.getLnglat().substring(d.getLnglat().indexOf(",") + 1));
             if (parkLongitude >= list.get(2) && parkLongitude <= list.get(3) && parkLatitude >= list.get(0) && parkLatitude <= list.get(1)) {
                 listOfParkingAreasInTheArea.add(d);
             }
         }
-        writeFile(parkingData);
-        System.out.println(readFile());
+        for (TainanParkingRemainder l : listOfParkingAreasInTheArea ) {
+            double parkLatitude = Double.parseDouble(l.getLnglat().substring(0, l.getLnglat().indexOf(",")));
+            double parkLongitude = Double.parseDouble(l.getLnglat().substring(l.getLnglat().indexOf(",") + 1));
+            double distance = Calculate.getTwoPointsDistance(goalLongitude, goalLatitude, parkLongitude, parkLatitude);
+            l.setDistance(Double.toString(distance));
+        }
+        Collections.sort(listOfParkingAreasInTheArea);
     }
 
     public void writeFile(String data) {

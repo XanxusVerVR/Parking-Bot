@@ -7,11 +7,11 @@ https://my.oschina.net/freegeek/blog/221341
 https://blog.csdn.net/yusewuhen/article/details/38402721
 給經緯度和距離，以此為基準算出四方形四個點的經緯度
 http://wp.mlab.tw/?p=2200
+算出兩點距離(Android)：
+http://dean-android.blogspot.com/2013/05/androidlist.html
 */
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javabean.sub.Coordinate;
 
 public class Calculate {

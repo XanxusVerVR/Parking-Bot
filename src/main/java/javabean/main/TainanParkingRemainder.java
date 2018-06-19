@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class TainanParkingRemainder {
+public class TainanParkingRemainder implements Comparable<TainanParkingRemainder> {
 
     @SerializedName("typeId")
     @Expose
@@ -84,6 +84,9 @@ public class TainanParkingRemainder {
     @SerializedName("lnglat")
     @Expose
     private String lnglat;
+    @SerializedName("distance")
+    @Expose
+    private String distance;
 
     /**
      * No args constructor for use in serialization
@@ -121,7 +124,7 @@ public class TainanParkingRemainder {
      * @param typeId
      * @param zone
      */
-    public TainanParkingRemainder(String typeId, String typeName, String id, String code, String name, String zoneId, String zone, String address, int largeCar, int car, int carDis, int carWoman, int carGreen, int moto, int motoDis, int largeCarTotal, int carTotal, int carDisTotal, int carWomanTotal, int carGreenTotal, int motoTotal, int motoDisTotal, String chargeTime, String chargeFee, String updateTime, String lnglat) {
+    public TainanParkingRemainder(String typeId, String typeName, String id, String code, String name, String zoneId, String zone, String address, int largeCar, int car, int carDis, int carWoman, int carGreen, int moto, int motoDis, int largeCarTotal, int carTotal, int carDisTotal, int carWomanTotal, int carGreenTotal, int motoTotal, int motoDisTotal, String chargeTime, String chargeFee, String updateTime, String lnglat, String distance) {
         super();
         this.typeId = typeId;
         this.typeName = typeName;
@@ -149,6 +152,7 @@ public class TainanParkingRemainder {
         this.chargeFee = chargeFee;
         this.updateTime = updateTime;
         this.lnglat = lnglat;
+        this.distance = distance;
     }
 
     public String getTypeId() {
@@ -359,9 +363,22 @@ public class TainanParkingRemainder {
         this.lnglat = lnglat;
     }
 
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public int compareTo(TainanParkingRemainder t) {
+        return this.distance.compareTo(t.distance);
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("typeId", typeId).append("typeName", typeName).append("id", id).append("code", code).append("name", name).append("zoneId", zoneId).append("zone", zone).append("address", address).append("largeCar", largeCar).append("car", car).append("carDis", carDis).append("carWoman", carWoman).append("carGreen", carGreen).append("moto", moto).append("motoDis", motoDis).append("largeCarTotal", largeCarTotal).append("carTotal", carTotal).append("carDisTotal", carDisTotal).append("carWomanTotal", carWomanTotal).append("carGreenTotal", carGreenTotal).append("motoTotal", motoTotal).append("motoDisTotal", motoDisTotal).append("chargeTime", chargeTime).append("chargeFee", chargeFee).append("updateTime", updateTime).append("lnglat", lnglat).toString();
+        return new ToStringBuilder(this).append("typeId", typeId).append("typeName", typeName).append("id", id).append("code", code).append("name", name).append("zoneId", zoneId).append("zone", zone).append("address", address).append("largeCar", largeCar).append("car", car).append("carDis", carDis).append("carWoman", carWoman).append("carGreen", carGreen).append("moto", moto).append("motoDis", motoDis).append("largeCarTotal", largeCarTotal).append("carTotal", carTotal).append("carDisTotal", carDisTotal).append("carWomanTotal", carWomanTotal).append("carGreenTotal", carGreenTotal).append("motoTotal", motoTotal).append("motoDisTotal", motoDisTotal).append("chargeTime", chargeTime).append("chargeFee", chargeFee).append("updateTime", updateTime).append("lnglat", lnglat).append("distance", distance).toString();
     }
 
 }
