@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javabean.main.PullServiceRequest;
+import javabean.main.PullServiceResponse;
 import javabean.main.TainanParkingRemainder;
+import javabean.sub.Result;
 import model.Calculate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,21 +24,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/parkingbot")
 public class WebController {
 
     @RequestMapping(value = "/getUserNearParkList", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
     @ResponseBody
-    public void getUserNearParkList(@RequestBody String requestBody) {
+    public PullServiceResponse getUserNearParkList(@RequestBody String requestBody) {
+
         RestTemplate restTemplate = new RestTemplate();
         String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
         TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
+
         PullServiceRequest u = gson.fromJson(requestBody, PullServiceRequest.class);
         double goalLatitude = u.getQuery().getCoordinate().getLatitude();
         double goalLongitude = u.getQuery().getCoordinate().getLongitude();
+
         List<Double> list = Calculate.getMaxMinLatitudeLongitude(goalLatitude, goalLongitude, 1);
         List<TainanParkingRemainder> listOfParkingAreasInTheArea = new ArrayList<>();//用來儲存在範圍內的停車場
+
         for (TainanParkingRemainder d : tainanParkingRemainder) {//找出1km範圍內的停車場
             double parkLatitude = Double.parseDouble(d.getLnglat().substring(0, d.getLnglat().indexOf(",")));
             double parkLongitude = Double.parseDouble(d.getLnglat().substring(d.getLnglat().indexOf(",") + 1));
@@ -44,13 +49,31 @@ public class WebController {
                 listOfParkingAreasInTheArea.add(d);
             }
         }
-        for (TainanParkingRemainder l : listOfParkingAreasInTheArea ) {
+
+        for (TainanParkingRemainder l : listOfParkingAreasInTheArea) {//算出所有距離1km內的停車場和目標地點的距離，並封裝進去
             double parkLatitude = Double.parseDouble(l.getLnglat().substring(0, l.getLnglat().indexOf(",")));
             double parkLongitude = Double.parseDouble(l.getLnglat().substring(l.getLnglat().indexOf(",") + 1));
             double distance = Calculate.getTwoPointsDistance(goalLongitude, goalLatitude, parkLongitude, parkLatitude);
-            l.setDistance(Double.toString(distance));
+            l.setDistance((int)distance);
         }
+
         Collections.sort(listOfParkingAreasInTheArea);
+
+        Result[] rArray = new Result[listOfParkingAreasInTheArea.size()];
+        List<Result> responseResultObj = new ArrayList<>();
+        for(int i = 0 ; i<listOfParkingAreasInTheArea.size() ; i++){
+            rArray[i] = new Result();
+            rArray[i].setName(listOfParkingAreasInTheArea.get(i).getName().trim());
+            rArray[i].setZone(listOfParkingAreasInTheArea.get(i).getZone().trim());
+            rArray[i].setAddress(listOfParkingAreasInTheArea.get(i).getAddress().trim());
+            rArray[i].setSurplusCar(listOfParkingAreasInTheArea.get(i).getCar());
+            rArray[i].setDistance(listOfParkingAreasInTheArea.get(i).getDistance());
+            responseResultObj.add(rArray[i]);
+        }
+
+        PullServiceResponse p = new PullServiceResponse(responseResultObj,"距離您位置1公里的停車場有"+listOfParkingAreasInTheArea.size()+"個，由近到遠分別為：","ok");
+
+        return p;
     }
 
     public void writeFile(String data) {

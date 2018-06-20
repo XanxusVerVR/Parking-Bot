@@ -86,7 +86,7 @@ public class TainanParkingRemainder implements Comparable<TainanParkingRemainder
     private String lnglat;
     @SerializedName("distance")
     @Expose
-    private String distance;
+    private int distance;
 
     /**
      * No args constructor for use in serialization
@@ -124,7 +124,7 @@ public class TainanParkingRemainder implements Comparable<TainanParkingRemainder
      * @param typeId
      * @param zone
      */
-    public TainanParkingRemainder(String typeId, String typeName, String id, String code, String name, String zoneId, String zone, String address, int largeCar, int car, int carDis, int carWoman, int carGreen, int moto, int motoDis, int largeCarTotal, int carTotal, int carDisTotal, int carWomanTotal, int carGreenTotal, int motoTotal, int motoDisTotal, String chargeTime, String chargeFee, String updateTime, String lnglat, String distance) {
+    public TainanParkingRemainder(String typeId, String typeName, String id, String code, String name, String zoneId, String zone, String address, int largeCar, int car, int carDis, int carWoman, int carGreen, int moto, int motoDis, int largeCarTotal, int carTotal, int carDisTotal, int carWomanTotal, int carGreenTotal, int motoTotal, int motoDisTotal, String chargeTime, String chargeFee, String updateTime, String lnglat, int distance) {
         super();
         this.typeId = typeId;
         this.typeName = typeName;
@@ -363,17 +363,26 @@ public class TainanParkingRemainder implements Comparable<TainanParkingRemainder
         this.lnglat = lnglat;
     }
 
-    public String getDistance() {
+    public int getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(int distance) {
         this.distance = distance;
     }
 
     @Override
     public int compareTo(TainanParkingRemainder t) {
-        return this.distance.compareTo(t.distance);
+        if(this.distance > t.distance){
+            return 1;
+        }
+        if(this.distance < t.distance){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+//        return this.distance.compareTo(t.distance);
     }
 
     @Override
