@@ -21,6 +21,9 @@ public class Result {
     @SerializedName("distance")
     @Expose
     private int distance;
+    @SerializedName("googleMapUrl")
+    @Expose
+    private String googleMapUrl;
 
     public Result() {
     }
@@ -32,8 +35,9 @@ public class Result {
      * @param name
      * @param zone
      * @param distance
+     * @param googleMapUrl
      */
-    public Result(String name, String zone, String address, int surplusCar, int distance) {
+    public Result(String name, String zone, String address, int surplusCar, int distance, String googleMapUrl) {
         super();
         this.name = name;
         this.zone = zone;
@@ -82,8 +86,16 @@ public class Result {
         this.distance = distance;
     }
 
+    public String getGoogleMapUrl() {
+        return googleMapUrl;
+    }
+
+    public void setGoogleMapUrl(String lnglat, double goalLatitude, double goalLongitude) {
+        this.googleMapUrl = "https://www.google.com.tw/maps/dir/" + String.valueOf(goalLatitude) + "," + String.valueOf(goalLongitude) + "/" + lnglat + "";
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("zone", zone).append("address", address).append("car", surplusCar).append("distance", distance).toString();
+        return new ToStringBuilder(this).append("name", name).append("zone", zone).append("address", address).append("car", surplusCar).append("distance", distance).append("googleMapUrl", googleMapUrl).toString();
     }
 }
