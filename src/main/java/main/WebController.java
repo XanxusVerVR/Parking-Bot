@@ -57,10 +57,11 @@ public class WebController {
             l.setDistance((int)distance);
         }
 
-        Collections.sort(listOfParkingAreasInTheArea);
+        Collections.sort(listOfParkingAreasInTheArea);//由近到遠排序距離
 
         Result[] rArray = new Result[listOfParkingAreasInTheArea.size()];
         List<Result> responseResultObj = new ArrayList<>();
+        String message = "幫您找到"+listOfParkingAreasInTheArea.size()+"個停車場："+"\n";
         for(int i = 0 ; i<listOfParkingAreasInTheArea.size() ; i++){
             rArray[i] = new Result();
             rArray[i].setName(listOfParkingAreasInTheArea.get(i).getName().trim());
@@ -69,11 +70,25 @@ public class WebController {
             rArray[i].setSurplusCar(listOfParkingAreasInTheArea.get(i).getCar());
             rArray[i].setDistance(listOfParkingAreasInTheArea.get(i).getDistance());
             responseResultObj.add(rArray[i]);
+            message += responseResultObj.get(i).getName()+"\n";
+            message += "地址:"+responseResultObj.get(i).getAddress()+"\n";
+            message += "剩餘車位:"+responseResultObj.get(i).getSurplusCar()+"\n";
+            message += "距離您:"+responseResultObj.get(i).getDistance()+"公尺"+"\n";
+            message += "\n";
         }
 
-        PullServiceResponse p = new PullServiceResponse(responseResultObj,"距離您位置1公里的停車場有"+listOfParkingAreasInTheArea.size()+"個，由近到遠分別為：","ok");
+        if(listOfParkingAreasInTheArea.size() == 0){
+            message = "抱歉，您附近沒有停車場哦";
+        }
+        PullServiceResponse p = new PullServiceResponse(responseResultObj,message,"ok");
 
         return p;
+    }
+
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
+    @ResponseBody
+    public String hello(String requestBody) {
+        return "Hello Xanxus";
     }
 
     public void writeFile(String data) {
