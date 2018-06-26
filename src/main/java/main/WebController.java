@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javabean.googleapi.geocoding.GeocodingAPIResponse;
 import javabean.main.PullServiceRequest;
 import javabean.main.PullServiceResponse;
 import javabean.main.TainanParkingRemainder;
@@ -87,6 +88,23 @@ public class WebController {
         PullServiceResponse p = new PullServiceResponse(responseResultObj, message, "ok");
 
         return p;
+    }
+
+    @RequestMapping(value = "/getPlaceNearParkList", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public void getPlaceNearParkList(@RequestBody String requestBody) {
+
+        Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
+        PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + q.getQuery().getLandmark() + "&key=AIzaSyAi8mU_NrWcOf87-o-PLixA4mExaEHInFE";
+        RestTemplate restTemplate = new RestTemplate();
+        String geocodingAPIResponseData = restTemplate.getForObject(url, String.class);
+        GeocodingAPIResponse geocodingAPIResponse = gson.fromJson(geocodingAPIResponseData, GeocodingAPIResponse.class);
+
+        double goalLatitude = geocodingAPIResponse.getResults().get(0).getGeometry().getLocation().getLat();
+        double goalLongitude = geocodingAPIResponse.getResults().get(0).getGeometry().getLocation().getLng();
+
+//        System.out.println(q.getQuery().getLandmark());//印出地標
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
