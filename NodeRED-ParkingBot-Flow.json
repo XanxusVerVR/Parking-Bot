@@ -1,0 +1,402 @@
+[
+    {
+        "id": "a12ebf7b.90346",
+        "type": "FCF-Dispatcher",
+        "z": "271d2c4e.996364",
+        "agentCredentials": "8bfe4fb9.6e799",
+        "rules": [
+            {
+                "topic": "UserNearParkListAction"
+            },
+            {
+                "topic": "PlaceNearParkListAction"
+            },
+            {
+                "topic": "ParkRemainSpaceNumberAction"
+            },
+            {
+                "topic": "ParkPriceAction"
+            }
+        ],
+        "outputs": 4,
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "eff04017.45157"
+            ],
+            [
+                "8a151068.f48b4"
+            ],
+            [
+                "463fcdd1.65fe94"
+            ],
+            [
+                "8508579.6ce21a8"
+            ]
+        ]
+    },
+    {
+        "id": "c0e101d3.d35fe",
+        "type": "FCF-Message",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "message": [
+            ""
+        ],
+        "answer": false,
+        "track": false,
+        "parse_mode": "",
+        "x": 600,
+        "y": 140,
+        "wires": [
+            [
+                "c9d332fb.33ccd"
+            ]
+        ]
+    },
+    {
+        "id": "99087e11.38626",
+        "type": "link out",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "75591001.6ba12"
+        ],
+        "x": 875,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "75591001.6ba12",
+        "type": "link in",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "99087e11.38626"
+        ],
+        "x": 295,
+        "y": 140,
+        "wires": [
+            [
+                "eff04017.45157"
+            ]
+        ]
+    },
+    {
+        "id": "e3365903.ab7f58",
+        "type": "FCF-Frame",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "name": "",
+        "token": "",
+        "outputs": 1,
+        "x": 590,
+        "y": 200,
+        "wires": [
+            [
+                "96cdae3.30f975"
+            ]
+        ]
+    },
+    {
+        "id": "96cdae3.30f975",
+        "type": "FCF-PullService",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "URL": "http://140.121.197.131:7602/ParkingService/user/near/parkings",
+        "outputs": 1,
+        "x": 730,
+        "y": 200,
+        "wires": [
+            [
+                "a9a734d0.da59a8"
+            ]
+        ]
+    },
+    {
+        "id": "dadedaa0.fa5028",
+        "type": "FCF-PullService",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "URL": "http://140.121.197.131:7602/ParkingService/landmark/near/parkings",
+        "outputs": 1,
+        "x": 730,
+        "y": 260,
+        "wires": [
+            [
+                "81bf5f30.e1867"
+            ]
+        ]
+    },
+    {
+        "id": "c9d332fb.33ccd",
+        "type": "FCF-facebook-send",
+        "z": "271d2c4e.996364",
+        "bot": "f9565e95.dc4da",
+        "track": true,
+        "outputs": 1,
+        "x": 760,
+        "y": 140,
+        "wires": [
+            [
+                "99087e11.38626"
+            ]
+        ]
+    },
+    {
+        "id": "39cca4b5.ba90ac",
+        "type": "FCF-facebook-receive",
+        "z": "271d2c4e.996364",
+        "bot": "f9565e95.dc4da",
+        "x": 90,
+        "y": 220,
+        "wires": [
+            [
+                "a12ebf7b.90346"
+            ]
+        ]
+    },
+    {
+        "id": "eff04017.45157",
+        "type": "FCF-DataCollection",
+        "z": "271d2c4e.996364",
+        "rules": [],
+        "collect": "query",
+        "whetherToSendLocation": true,
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "c0e101d3.d35fe"
+            ],
+            [
+                "e3365903.ab7f58"
+            ]
+        ]
+    },
+    {
+        "id": "a9a734d0.da59a8",
+        "type": "FCF-Message",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "message": [
+            ""
+        ],
+        "answer": false,
+        "track": false,
+        "parse_mode": "",
+        "x": 880,
+        "y": 200,
+        "wires": [
+            [
+                "f773d504.77be38"
+            ]
+        ]
+    },
+    {
+        "id": "f773d504.77be38",
+        "type": "FCF-facebook-send",
+        "z": "271d2c4e.996364",
+        "bot": "f9565e95.dc4da",
+        "track": false,
+        "outputs": 0,
+        "x": 1040,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8a151068.f48b4",
+        "type": "FCF-KeywordExtraction",
+        "z": "271d2c4e.996364",
+        "agentCredentials": "8bfe4fb9.6e799",
+        "outputs": 1,
+        "x": 430,
+        "y": 260,
+        "wires": [
+            [
+                "a11fece1.cf4bf"
+            ]
+        ]
+    },
+    {
+        "id": "ca6ed3af.e3778",
+        "type": "FCF-PullService",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "URL": "http://140.121.197.131:7602/ParkingService/remain/park/space",
+        "outputs": 1,
+        "x": 730,
+        "y": 320,
+        "wires": [
+            [
+                "81bf5f30.e1867"
+            ]
+        ]
+    },
+    {
+        "id": "35709dcd.69c6b2",
+        "type": "FCF-Frame",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "name": "",
+        "token": "",
+        "outputs": 1,
+        "x": 590,
+        "y": 380,
+        "wires": [
+            [
+                "7875966c.9c9848"
+            ]
+        ]
+    },
+    {
+        "id": "7875966c.9c9848",
+        "type": "FCF-PullService",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "URL": "http://140.121.197.131:7602/ParkingService/park/price",
+        "outputs": 1,
+        "x": 730,
+        "y": 380,
+        "wires": [
+            [
+                "81bf5f30.e1867"
+            ]
+        ]
+    },
+    {
+        "id": "950eda1d.64a598",
+        "type": "FCF-facebook-send",
+        "z": "271d2c4e.996364",
+        "bot": "f9565e95.dc4da",
+        "track": false,
+        "outputs": 0,
+        "x": 1060,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "463fcdd1.65fe94",
+        "type": "FCF-KeywordExtraction",
+        "z": "271d2c4e.996364",
+        "agentCredentials": "8bfe4fb9.6e799",
+        "outputs": 1,
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "ade90970.4e2788"
+            ]
+        ]
+    },
+    {
+        "id": "8508579.6ce21a8",
+        "type": "FCF-KeywordExtraction",
+        "z": "271d2c4e.996364",
+        "agentCredentials": "8bfe4fb9.6e799",
+        "outputs": 1,
+        "x": 430,
+        "y": 380,
+        "wires": [
+            [
+                "35709dcd.69c6b2"
+            ]
+        ]
+    },
+    {
+        "id": "81bf5f30.e1867",
+        "type": "FCF-Message",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "message": [
+            ""
+        ],
+        "answer": false,
+        "track": false,
+        "parse_mode": "",
+        "x": 900,
+        "y": 320,
+        "wires": [
+            [
+                "950eda1d.64a598"
+            ]
+        ]
+    },
+    {
+        "id": "a11fece1.cf4bf",
+        "type": "FCF-Frame",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "name": "",
+        "token": "",
+        "outputs": 1,
+        "x": 590,
+        "y": 260,
+        "wires": [
+            [
+                "dadedaa0.fa5028"
+            ]
+        ]
+    },
+    {
+        "id": "ade90970.4e2788",
+        "type": "FCF-Frame",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "name": "",
+        "token": "",
+        "outputs": 1,
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "ca6ed3af.e3778"
+            ]
+        ]
+    },
+    {
+        "id": "8bfe4fb9.6e799",
+        "type": "FCF-DialogflowConfig",
+        "z": "",
+        "agentName": "ParkingBot"
+    },
+    {
+        "id": "f9565e95.dc4da",
+        "type": "FCF-facebook-node",
+        "z": "",
+        "botname": "\bParkingBot"
+    }
+]

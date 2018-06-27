@@ -83,7 +83,39 @@ public class WebController {
                 break;
             }
         }
-        
+
+        return p;
+    }
+
+    @RequestMapping(value = "/park/price", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public PullServiceResponse PullServiceResponse(@RequestBody String requestBody) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
+
+        PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
+        String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
+        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
+
+        PullServiceResponse p = null;
+        for (TainanParkingRemainder d : tainanParkingRemainder) {//找出使用者問的停車場的收費
+            String nameFormat = d.getName().trim().replaceAll("\\(", "").replaceAll("\\)", "");
+            d.setName(nameFormat);
+            if (q.getQuery().getParkName().equals(d.getName())) {
+                String message;
+                if (d.getChargeFee() == null || d.getChargeFee().equals("") || d.getChargeFee().equals("公有收費停車場") || d.getChargeFee().contains("自行輸入")) {
+                    message = "抱歉，此停車場目前未提供收費資訊。";
+                } else if (d.getChargeFee().equals("公有免費停車場")) {
+                    message = "您好，" + q.getQuery().getParkName() + "是免費的唷!";
+                } else {
+                    message = q.getQuery().getParkName() + "的收費方式為：" + d.getChargeFee();
+                }
+                p = new PullServiceResponse(null, message, "ok");
+                break;
+            }
+        }
+        System.out.println(gson.toJson(tainanParkingRemainder));
         return p;
     }
 
