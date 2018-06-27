@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javabean.googleapi.geocoding.GeocodingAPIResponse;
 import javabean.main.PullServiceRequest;
 import javabean.main.PullServiceResponse;
+import javabean.main.TainanParkingRemainder;
 import model.Park;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class WebController {
 
-    @RequestMapping(value = "/getUserNearParkList", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/user/near/parkings", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
     @ResponseBody
     public PullServiceResponse getUserNearParkList(@RequestBody String requestBody) {
 
@@ -40,7 +41,7 @@ public class WebController {
         return park.getPullServiceResponseObject(goalLatitude, goalLongitude, parkingData);
     }
 
-    @RequestMapping(value = "/getPlaceNearParkList", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/landmark/near/parkings", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
     @ResponseBody
     public PullServiceResponse getPlaceNearParkList(@RequestBody String requestBody) {
 
@@ -60,6 +61,30 @@ public class WebController {
         Park park = new Park();
 
         return park.getPullServiceResponseObject(goalLatitude, goalLongitude, parkingData);
+    }
+
+    @RequestMapping(value = "/remain/park/space", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public PullServiceResponse getRemainParkSpace(@RequestBody String requestBody) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
+
+        PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
+        String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
+        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
+
+        PullServiceResponse p = null;
+        for (TainanParkingRemainder d : tainanParkingRemainder) {//找出使用者問的停車場，並取出剩餘車位數量
+            d.setName(d.getName().trim());
+            if (q.getQuery().getParkName().equals(d.getName())) {
+                String message = q.getQuery().getParkName() + "還剩" + d.getCar() + "個車位";
+                p = new PullServiceResponse(null, message, "ok");
+                break;
+            }
+        }
+        
+        return p;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})

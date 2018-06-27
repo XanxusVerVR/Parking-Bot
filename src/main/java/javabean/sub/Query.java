@@ -12,13 +12,17 @@ public class Query {
     @SerializedName("landmark")
     @Expose
     private String landmark;
+    @SerializedName("parkName")
+    @Expose
+    private String parkName;
 
     public Query() {
     }
 
-    public Query(String landmark) {
+    public Query(String landmark, String parkName) {
         super();
         this.landmark = landmark;
+        this.parkName = parkName;
     }
 
     public Query(Coordinate coordinate, String landmark) {
@@ -43,9 +47,17 @@ public class Query {
         this.landmark = landmark;
     }
 
+    public String getParkName() {
+        return parkName;
+    }
+
+    public void setParkName(String parkName) {
+        this.parkName = parkName;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("landmark", landmark).append("coordinate", coordinate).toString();
+        return new ToStringBuilder(this).append("landmark", landmark).append("coordinate", coordinate).append("parkName", parkName).toString();
     }
 
 }
