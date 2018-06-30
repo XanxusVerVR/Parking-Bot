@@ -19,7 +19,7 @@ public class Park {
         TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
 
         List<TainanParkingRemainder> listOfParkingAreasInTheArea = getNeighboringParking(tainanParkingRemainder,goalLatitude,goalLongitude);
-        Collections.sort(listOfParkingAreasInTheArea);//由近到遠排序距離
+        Collections.sort(listOfParkingAreasInTheArea);//將距離由近到遠排序距離
 
         Result[] rArray = new Result[listOfParkingAreasInTheArea.size()];
         List<Result> responseResultObj = new ArrayList<>();

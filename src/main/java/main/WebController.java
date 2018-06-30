@@ -63,16 +63,13 @@ public class WebController {
     @ResponseBody
     public PullServiceResponse getRemainParkSpace(@RequestBody String requestBody) {
 
-        RestTemplate restTemplate = new RestTemplate();
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
 
         PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
-        String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
-        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
+        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(readFile(), TainanParkingRemainder[].class);
 
         PullServiceResponse p = null;
         for (TainanParkingRemainder d : tainanParkingRemainder) {//找出使用者問的停車場，並取出剩餘車位數量
-            d.setName(d.getName().trim());
             if (q.getQuery().getParkName().equals(d.getName())) {
                 String message = q.getQuery().getParkName() + "還剩" + d.getCar() + "個車位";
                 p = new PullServiceResponse(null, message, "ok");
@@ -87,17 +84,13 @@ public class WebController {
     @ResponseBody
     public PullServiceResponse PullServiceResponse(@RequestBody String requestBody) {
 
-        RestTemplate restTemplate = new RestTemplate();
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
 
         PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
-        String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
-        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
+        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(readFile(), TainanParkingRemainder[].class);
 
         PullServiceResponse p = null;
         for (TainanParkingRemainder d : tainanParkingRemainder) {//找出使用者問的停車場的收費
-            String nameFormat = d.getName().trim().replaceAll("\\(", "").replaceAll("\\)", "");
-            d.setName(nameFormat);
             if (q.getQuery().getParkName().equals(d.getName())) {
                 String message;
                 if (d.getChargeFee() == null || d.getChargeFee().equals("") || d.getChargeFee().equals("公有收費停車場") || d.getChargeFee().contains("自行輸入")) {
@@ -111,6 +104,7 @@ public class WebController {
                 break;
             }
         }
+        
         return p;
     }
 
