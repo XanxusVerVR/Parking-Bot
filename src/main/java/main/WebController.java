@@ -3,6 +3,7 @@ package main;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -27,10 +28,7 @@ public class WebController {
     @ResponseBody
     public PullServiceResponse getUserNearParkList(@RequestBody String requestBody) {
 
-        RestTemplate restTemplate = new RestTemplate();
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
-
-        String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
 
         PullServiceRequest u = gson.fromJson(requestBody, PullServiceRequest.class);
         double goalLatitude = u.getQuery().getCoordinate().getLatitude();
@@ -38,7 +36,7 @@ public class WebController {
 
         Park park = new Park();
 
-        return park.getPullServiceResponseObject(goalLatitude, goalLongitude, parkingData);
+        return park.getPullServiceResponseObject(goalLatitude, goalLongitude, readFile());
     }
 
     @RequestMapping(value = "/landmark/near/parkings", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
@@ -56,11 +54,9 @@ public class WebController {
         double goalLatitude = geocodingAPIResponse.getResults().get(0).getGeometry().getLocation().getLat();
         double goalLongitude = geocodingAPIResponse.getResults().get(0).getGeometry().getLocation().getLng();
 
-        String parkingData = restTemplate.getForObject("http://parkweb.tainan.gov.tw/api/parking.php", String.class);
-
         Park park = new Park();
 
-        return park.getPullServiceResponseObject(goalLatitude, goalLongitude, parkingData);
+        return park.getPullServiceResponseObject(goalLatitude, goalLongitude, readFile());
     }
 
     @RequestMapping(value = "/remain/park/space", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
@@ -115,7 +111,6 @@ public class WebController {
                 break;
             }
         }
-        System.out.println(gson.toJson(tainanParkingRemainder));
         return p;
     }
 
@@ -125,18 +120,11 @@ public class WebController {
         return "Hello Xanxus";
     }
 
-    public void writeFile(String data) {
-        try {
-            Files.write(Paths.get("parkingData.json"), data.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public String readFile() {
         String content = null;
+        String absolutePath = new File("").getAbsolutePath();
         try {
-            content = new String(Files.readAllBytes(Paths.get("parkingData.json")));
+            content = new String(Files.readAllBytes(Paths.get(absolutePath + "/webapps/ParkingService/parkingData.json")));
 
         } catch (IOException ex) {
             Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
