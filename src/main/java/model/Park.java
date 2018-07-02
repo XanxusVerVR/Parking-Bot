@@ -18,7 +18,7 @@ public class Park {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
         TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
 
-        List<TainanParkingRemainder> listOfParkingAreasInTheArea = getNeighboringParking(tainanParkingRemainder,goalLatitude,goalLongitude);
+        List<TainanParkingRemainder> listOfParkingAreasInTheArea = getNeighboringParking(tainanParkingRemainder, goalLatitude, goalLongitude);
         Collections.sort(listOfParkingAreasInTheArea);//將距離由近到遠排序距離
 
         Result[] rArray = new Result[listOfParkingAreasInTheArea.size()];
@@ -36,7 +36,7 @@ public class Park {
             message += responseResultObj.get(i).getName() + "\n";
             message += "地址:" + responseResultObj.get(i).getAddress() + "\n";
             message += "剩餘車位:" + responseResultObj.get(i).getSurplusCar() + "\n";
-            message += "距離:" + responseResultObj.get(i).getDistance() + "公尺" + "\n";
+            message += "距離:" + Calculate.distanceUnitFormat(responseResultObj.get(i).getDistance()) + "\n";
             message += "地圖路線:\n" + responseResultObj.get(i).getGoogleMapUrl() + "\n";
             message += "\n";
         }

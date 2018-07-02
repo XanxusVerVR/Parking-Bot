@@ -1,4 +1,5 @@
 package model;
+
 /*
 參考資料：
 算出範圍內最大最小經緯度與算出兩點距離：
@@ -9,7 +10,8 @@ https://blog.csdn.net/yusewuhen/article/details/38402721
 http://wp.mlab.tw/?p=2200
 算出兩點距離(Android)：
 http://dean-android.blogspot.com/2013/05/androidlist.html
-*/
+ */
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javabean.sub.Coordinate;
@@ -64,5 +66,13 @@ public class Calculate {
         list.add(minlng);
         list.add(maxlng);
         return list;
+    }
+
+    public static String distanceUnitFormat(double distance) {
+        if (distance < 1000) {
+            return String.valueOf((int) distance) + "m";
+        } else {
+            return new DecimalFormat("#.00").format(distance / 1000) + "km";
+        }
     }
 }
