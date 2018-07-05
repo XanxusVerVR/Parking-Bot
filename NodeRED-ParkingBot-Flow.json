@@ -16,11 +16,17 @@
             },
             {
                 "topic": "ParkPriceAction"
+            },
+            {
+                "topic": "input.unknown"
+            },
+            {
+                "topic": "HelloAction"
             }
         ],
-        "outputs": 4,
-        "x": 250,
-        "y": 220,
+        "outputs": 6,
+        "x": 310,
+        "y": 320,
         "wires": [
             [
                 "eff04017.45157"
@@ -32,7 +38,13 @@
                 "463fcdd1.65fe94"
             ],
             [
-                "8508579.6ce21a8"
+                "45464a91.127bc4"
+            ],
+            [
+                "880cb960.0417c8"
+            ],
+            [
+                "e15dc743.6f9808"
             ]
         ]
     },
@@ -47,8 +59,8 @@
         "answer": false,
         "track": false,
         "parse_mode": "",
-        "x": 600,
-        "y": 140,
+        "x": 660,
+        "y": 160,
         "wires": [
             [
                 "c9d332fb.33ccd"
@@ -63,8 +75,8 @@
         "links": [
             "75591001.6ba12"
         ],
-        "x": 875,
-        "y": 100,
+        "x": 935,
+        "y": 120,
         "wires": []
     },
     {
@@ -75,8 +87,8 @@
         "links": [
             "99087e11.38626"
         ],
-        "x": 295,
-        "y": 140,
+        "x": 355,
+        "y": 160,
         "wires": [
             [
                 "eff04017.45157"
@@ -95,8 +107,8 @@
         "name": "",
         "token": "",
         "outputs": 1,
-        "x": 590,
-        "y": 200,
+        "x": 650,
+        "y": 220,
         "wires": [
             [
                 "96cdae3.30f975"
@@ -114,8 +126,8 @@
         ],
         "URL": "http://140.121.197.131:7602/ParkingService/user/near/parkings",
         "outputs": 1,
-        "x": 730,
-        "y": 200,
+        "x": 790,
+        "y": 220,
         "wires": [
             [
                 "a9a734d0.da59a8"
@@ -133,8 +145,8 @@
         ],
         "URL": "http://140.121.197.131:7602/ParkingService/landmark/near/parkings",
         "outputs": 1,
-        "x": 730,
-        "y": 260,
+        "x": 830,
+        "y": 280,
         "wires": [
             [
                 "81bf5f30.e1867"
@@ -148,8 +160,8 @@
         "bot": "f9565e95.dc4da",
         "track": true,
         "outputs": 1,
-        "x": 760,
-        "y": 140,
+        "x": 820,
+        "y": 160,
         "wires": [
             [
                 "99087e11.38626"
@@ -161,8 +173,8 @@
         "type": "FCF-facebook-receive",
         "z": "271d2c4e.996364",
         "bot": "f9565e95.dc4da",
-        "x": 90,
-        "y": 220,
+        "x": 150,
+        "y": 320,
         "wires": [
             [
                 "a12ebf7b.90346"
@@ -176,8 +188,8 @@
         "rules": [],
         "collect": "query",
         "whetherToSendLocation": true,
-        "x": 420,
-        "y": 180,
+        "x": 480,
+        "y": 200,
         "wires": [
             [
                 "c0e101d3.d35fe"
@@ -198,8 +210,8 @@
         "answer": false,
         "track": false,
         "parse_mode": "",
-        "x": 880,
-        "y": 200,
+        "x": 940,
+        "y": 220,
         "wires": [
             [
                 "f773d504.77be38"
@@ -213,8 +225,8 @@
         "bot": "f9565e95.dc4da",
         "track": false,
         "outputs": 0,
-        "x": 1040,
-        "y": 200,
+        "x": 1100,
+        "y": 220,
         "wires": []
     },
     {
@@ -223,8 +235,8 @@
         "z": "271d2c4e.996364",
         "agentCredentials": "8bfe4fb9.6e799",
         "outputs": 1,
-        "x": 430,
-        "y": 260,
+        "x": 530,
+        "y": 280,
         "wires": [
             [
                 "a11fece1.cf4bf"
@@ -242,47 +254,8 @@
         ],
         "URL": "http://140.121.197.131:7602/ParkingService/remain/park/space",
         "outputs": 1,
-        "x": 730,
+        "x": 830,
         "y": 320,
-        "wires": [
-            [
-                "81bf5f30.e1867"
-            ]
-        ]
-    },
-    {
-        "id": "35709dcd.69c6b2",
-        "type": "FCF-Frame",
-        "z": "271d2c4e.996364",
-        "rules": [
-            {
-                "topic": ""
-            }
-        ],
-        "name": "",
-        "token": "",
-        "outputs": 1,
-        "x": 590,
-        "y": 380,
-        "wires": [
-            [
-                "7875966c.9c9848"
-            ]
-        ]
-    },
-    {
-        "id": "7875966c.9c9848",
-        "type": "FCF-PullService",
-        "z": "271d2c4e.996364",
-        "rules": [
-            {
-                "topic": ""
-            }
-        ],
-        "URL": "http://140.121.197.131:7602/ParkingService/park/price",
-        "outputs": 1,
-        "x": 730,
-        "y": 380,
         "wires": [
             [
                 "81bf5f30.e1867"
@@ -296,7 +269,7 @@
         "bot": "f9565e95.dc4da",
         "track": false,
         "outputs": 0,
-        "x": 1060,
+        "x": 1160,
         "y": 320,
         "wires": []
     },
@@ -306,25 +279,11 @@
         "z": "271d2c4e.996364",
         "agentCredentials": "8bfe4fb9.6e799",
         "outputs": 1,
-        "x": 430,
+        "x": 530,
         "y": 320,
         "wires": [
             [
                 "ade90970.4e2788"
-            ]
-        ]
-    },
-    {
-        "id": "8508579.6ce21a8",
-        "type": "FCF-KeywordExtraction",
-        "z": "271d2c4e.996364",
-        "agentCredentials": "8bfe4fb9.6e799",
-        "outputs": 1,
-        "x": 430,
-        "y": 380,
-        "wires": [
-            [
-                "35709dcd.69c6b2"
             ]
         ]
     },
@@ -339,7 +298,7 @@
         "answer": false,
         "track": false,
         "parse_mode": "",
-        "x": 900,
+        "x": 1000,
         "y": 320,
         "wires": [
             [
@@ -359,8 +318,8 @@
         "name": "",
         "token": "",
         "outputs": 1,
-        "x": 590,
-        "y": 260,
+        "x": 690,
+        "y": 280,
         "wires": [
             [
                 "dadedaa0.fa5028"
@@ -379,11 +338,206 @@
         "name": "",
         "token": "",
         "outputs": 1,
-        "x": 590,
+        "x": 690,
         "y": 320,
         "wires": [
             [
                 "ca6ed3af.e3778"
+            ]
+        ]
+    },
+    {
+        "id": "80af997b.d51048",
+        "type": "FCF-Message",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "message": [
+            {
+                "message": "可以再說詳細一點嗎"
+            },
+            {
+                "message": "有點聽不懂耶 可說詳細一點嗎"
+            }
+        ],
+        "answer": false,
+        "track": false,
+        "parse_mode": "",
+        "x": 1000,
+        "y": 400,
+        "wires": [
+            [
+                "950eda1d.64a598"
+            ]
+        ]
+    },
+    {
+        "id": "8ce5ac5f.8c8d6",
+        "type": "FCF-Message",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "message": [
+            {
+                "message": "你好啊！需要我幫你找停車場嗎？"
+            },
+            {
+                "message": "你好喔！可以問我停車場剩下的車位唷！"
+            },
+            {
+                "message": "HIHI，需要我幫你找停車場嗎？"
+            },
+            {
+                "message": "Hello！可以跟我聊聊台南市區的停車場，我可是很拿手的呢！"
+            },
+            {
+                "message": "啊囉哈！"
+            },
+            {
+                "message": "啊囉哈囉哈！！想找停車場找我就對啦～"
+            }
+        ],
+        "answer": false,
+        "track": false,
+        "parse_mode": "",
+        "x": 1000,
+        "y": 360,
+        "wires": [
+            [
+                "950eda1d.64a598"
+            ]
+        ]
+    },
+    {
+        "id": "880cb960.0417c8",
+        "type": "link out",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "79819df7.e24234"
+        ],
+        "x": 455,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "4bd5d6a3.649d88",
+        "type": "link in",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "e15dc743.6f9808"
+        ],
+        "x": 875,
+        "y": 400,
+        "wires": [
+            [
+                "8ce5ac5f.8c8d6"
+            ]
+        ]
+    },
+    {
+        "id": "e15dc743.6f9808",
+        "type": "link out",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "4bd5d6a3.649d88"
+        ],
+        "x": 415,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "79819df7.e24234",
+        "type": "link in",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "880cb960.0417c8"
+        ],
+        "x": 895,
+        "y": 440,
+        "wires": [
+            [
+                "80af997b.d51048"
+            ]
+        ]
+    },
+    {
+        "id": "b8d0d344.3c2ac",
+        "type": "link out",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "42c8269c.f4a798"
+        ],
+        "x": 975,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "42c8269c.f4a798",
+        "type": "link in",
+        "z": "271d2c4e.996364",
+        "name": "",
+        "links": [
+            "b8d0d344.3c2ac"
+        ],
+        "x": 1055,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "45464a91.127bc4",
+        "type": "FCF-KeywordExtraction",
+        "z": "271d2c4e.996364",
+        "agentCredentials": "8bfe4fb9.6e799",
+        "outputs": 1,
+        "x": 530,
+        "y": 360,
+        "wires": [
+            [
+                "7f175828.69f138"
+            ]
+        ]
+    },
+    {
+        "id": "7f175828.69f138",
+        "type": "FCF-Frame",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "name": "",
+        "token": "",
+        "outputs": 1,
+        "x": 690,
+        "y": 360,
+        "wires": [
+            [
+                "ec492c93.73fb2"
+            ]
+        ]
+    },
+    {
+        "id": "ec492c93.73fb2",
+        "type": "FCF-PullService",
+        "z": "271d2c4e.996364",
+        "rules": [
+            {
+                "topic": ""
+            }
+        ],
+        "URL": "http://140.121.197.131:7602/ParkingService/park/price",
+        "outputs": 1,
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "81bf5f30.e1867"
             ]
         ]
     },
