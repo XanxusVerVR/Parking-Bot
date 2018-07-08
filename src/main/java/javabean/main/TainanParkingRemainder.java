@@ -87,6 +87,7 @@ public class TainanParkingRemainder implements Comparable<TainanParkingRemainder
     @SerializedName("distance")
     @Expose
     private int distance;
+    public static TainanParkingRemainder[] TAINANPARKINGREMAINDER;
 
     /**
      * No args constructor for use in serialization
@@ -382,7 +383,6 @@ public class TainanParkingRemainder implements Comparable<TainanParkingRemainder
         else{
             return 0;
         }
-//        return this.distance.compareTo(t.distance);
     }
 
     @Override

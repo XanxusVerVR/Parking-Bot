@@ -3,12 +3,6 @@ package main;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javabean.googleapi.geocoding.GeocodingAPIResponse;
 import javabean.main.PullServiceRequest;
 import javabean.main.PullServiceResponse;
@@ -36,7 +30,7 @@ public class WebController {
 
         Park park = new Park();
 
-        return park.getPullServiceResponseObject(goalLatitude, goalLongitude, readFile());
+        return park.getPullServiceResponseObject(goalLatitude, goalLongitude);
     }
 
     @RequestMapping(value = "/landmark/near/parkings", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
@@ -56,7 +50,7 @@ public class WebController {
 
         Park park = new Park();
 
-        return park.getPullServiceResponseObject(goalLatitude, goalLongitude, readFile());
+        return park.getPullServiceResponseObject(goalLatitude, goalLongitude);
     }
 
     @RequestMapping(value = "/remain/park/space", method = {RequestMethod.POST}, consumes = "application/json;charset=UTF-8")
@@ -66,10 +60,9 @@ public class WebController {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
 
         PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
-        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(readFile(), TainanParkingRemainder[].class);
 
         PullServiceResponse p = null;
-        for (TainanParkingRemainder d : tainanParkingRemainder) {//找出使用者問的停車場，並取出剩餘車位數量
+        for (TainanParkingRemainder d : TainanParkingRemainder.TAINANPARKINGREMAINDER) {//找出使用者問的停車場，並取出剩餘車位數量
             if (q.getQuery().getParkName().equals(d.getName())) {
                 String message = q.getQuery().getParkName() + "還剩" + d.getCar() + "個車位";
                 p = new PullServiceResponse(null, message, "ok");
@@ -87,10 +80,9 @@ public class WebController {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
 
         PullServiceRequest q = gson.fromJson(requestBody, PullServiceRequest.class);
-        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(readFile(), TainanParkingRemainder[].class);
 
         PullServiceResponse p = null;
-        for (TainanParkingRemainder d : tainanParkingRemainder) {//找出使用者問的停車場的收費
+        for (TainanParkingRemainder d : TainanParkingRemainder.TAINANPARKINGREMAINDER) {//找出使用者問的停車場的收費
             if (q.getQuery().getParkName().equals(d.getName())) {
                 String message;
                 if (d.getChargeFee() == null || d.getChargeFee().equals("") || d.getChargeFee().equals("公有收費停車場") || d.getChargeFee().contains("自行輸入")) {
@@ -104,7 +96,7 @@ public class WebController {
                 break;
             }
         }
-        
+
         return p;
     }
 
@@ -112,17 +104,5 @@ public class WebController {
     @ResponseBody
     public String hello(String requestBody) {
         return "Hello Xanxus";
-    }
-
-    public String readFile() {
-        String content = null;
-        String absolutePath = new File("").getAbsolutePath();
-        try {
-            content = new String(Files.readAllBytes(Paths.get(absolutePath + "/webapps/ParkingService/parkingData.json")));
-
-        } catch (IOException ex) {
-            Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return content;
     }
 }

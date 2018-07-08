@@ -14,11 +14,9 @@ public class Park {
 
     //goalLatitude與goalLongitude為目標經緯度。如：使用者目前所在經緯度或是地標經緯度
     //parkingData為台南市即時停車場開放資料，格式為json
-    public PullServiceResponse getPullServiceResponseObject(double goalLatitude, double goalLongitude, String parkingData) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();//創造Gson物件
-        TainanParkingRemainder[] tainanParkingRemainder = gson.fromJson(parkingData, TainanParkingRemainder[].class);
+    public PullServiceResponse getPullServiceResponseObject(double goalLatitude, double goalLongitude) {
 
-        List<TainanParkingRemainder> listOfParkingAreasInTheArea = getNeighboringParking(tainanParkingRemainder, goalLatitude, goalLongitude);
+        List<TainanParkingRemainder> listOfParkingAreasInTheArea = getNeighboringParking(TainanParkingRemainder.TAINANPARKINGREMAINDER, goalLatitude, goalLongitude);
         Collections.sort(listOfParkingAreasInTheArea);//將距離由近到遠排序距離
 
         Result[] rArray = new Result[listOfParkingAreasInTheArea.size()];
