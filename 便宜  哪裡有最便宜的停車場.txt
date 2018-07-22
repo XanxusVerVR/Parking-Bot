@@ -1,0 +1,27 @@
+那時停車場的機器人
+
+便宜  哪裡有最便宜的停車場
+cheapestParkPrice
+
+貴  這附近最貴的停車場在哪裡
+expensiveParkPrice
+
+別人都停在哪
+getOtherPeopleParkLocation
+
+
+離香米湯湯最近的停車場在哪
+
+Pull Service Request
+
+
+Pull Service Response
+{
+	"Result":{
+		"ItemID":"H2017",
+		"ItemNumber":2
+	},
+	"Message":"前方300公尺的7-11對面有一家每小時40元的停車場
+	http://bit.ly/2j1eVcK",
+	"Status":"ok"
+}
